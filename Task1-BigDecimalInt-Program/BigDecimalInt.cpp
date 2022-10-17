@@ -1,0 +1,244 @@
+#include "BigDecimalInt.h"
+
+
+//Operators
+BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
+    int mn = min(numA.size(), anotherDec.numA.size());
+    int mx = max(numA.size(), anotherDec.numA.size());
+    int lp = mx - mn ;
+    int sz1 = numA.size(), sz2 = anotherDec.numA.size();
+    vector<int> temp(mx) ;
+    stringstream result;
+    string finalNum = "";
+    reverse(numA.begin(), numA.end());
+    reverse(anotherDec.numA.begin(), anotherDec.numA.end());
+    if( numA.size() > anotherDec.numA.size() ) {
+        for (int i = 0; i < lp; ++i) {
+            anotherDec.numA.push_back(0);
+        }
+    }
+    else if (  numA.size() < anotherDec.numA.size()) {
+        for (int i = 0; i < lp; ++i) {
+            numA.push_back(0);
+        }
+    }
+
+    if ( nSign == '+'  && anotherDec.nSign == '+' ) {
+        for (int i = 0; i < mx; ++i) {
+            if (numA[i] + anotherDec.numA[i] > 10) {
+                temp[i] = (numA[i] + anotherDec.numA[i]) % 10;
+                numA[i + 1] += 1;
+            } else {
+                temp[i] = numA[i] + anotherDec.numA[i];
+            }
+        }
+        reverse(temp.begin(), temp.end());
+        copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+        finalNum = result.str();
+    }
+    else if ( nSign == '-'  && anotherDec.nSign == '-' ) {
+        for (int i = 0; i < mx; ++i) {
+            if (numA[i] + anotherDec.numA[i] > 10) {
+                temp[i] = (numA[i] + anotherDec.numA[i]) % 10;
+                numA[i + 1] += 1;
+            } else {
+                temp[i] = numA[i] + anotherDec.numA[i];
+            }
+        }
+        reverse(temp.begin(), temp.end());
+        copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+        finalNum = result.str();
+        finalNum = '-' + finalNum;
+    }
+
+    else if ( nSign == '+'  && anotherDec.nSign == '-' ) {
+        if ( sz1 >= sz2  ) {
+            for (int i = 0; i < mx; ++i) {
+                if ( numA[i] - anotherDec.numA[i] < 0 ) {
+                    numA[i+1] -= 1;
+                    temp[i] = numA[i] + 10 - anotherDec.numA[i];
+                }
+                else {
+                    temp[i] = numA[i]  - anotherDec.numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+        }
+        else if ( sz1 < sz2) {
+            for (int i = 0; i < mx; ++i) {
+                if ( - numA[i] + anotherDec.numA[i] < 0 ) {
+                    anotherDec.numA[i+1] -= 1;
+                    temp[i] = anotherDec.numA[i] + 10 - numA[i];
+                }
+                else {
+                    temp[i] = anotherDec.numA[i]  - numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+            finalNum = '-' + finalNum;
+        }
+
+    }
+    else if ( nSign == '-'  && anotherDec.nSign == '+' ) {
+        if ( sz2 >= sz1  ) {
+            for (int i = 0; i < mx; ++i) {
+                if ( anotherDec.numA[i] - numA[i] < 0 ) {
+                    anotherDec.numA[i+1] -= 1;
+                    temp[i] = anotherDec.numA[i] + 10 - numA[i];
+                }
+                else {
+                    temp[i] = anotherDec.numA[i]  - numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+        }
+        else if ( sz2 < sz1) {
+            for (int i = 0; i < mx; ++i) {
+                if ( - anotherDec.numA[i] + numA[i] < 0 ) {
+                    numA[i+1] -= 1;
+                    temp[i] = numA[i] + 10 - anotherDec.numA[i];
+                }
+                else {
+                    temp[i] = numA[i]  - anotherDec.numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+            finalNum = '-' + finalNum;
+        }
+
+    }
+    BigDecimalInt answer(finalNum);
+    return answer;
+}
+BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec){
+    int mn = min(numA.size(), anotherDec.numA.size()) , mx = max(numA.size(), anotherDec.numA.size());
+    int lp = mx - mn ;
+    int sz1 = numA.size(), sz2 = anotherDec.numA.size();
+    vector<int> temp(mx) ;
+    stringstream result;
+    string finalNum = "";
+    reverse(numA.begin(), numA.end());
+    reverse(anotherDec.numA.begin(), anotherDec.numA.end());
+    if( numA.size() > anotherDec.numA.size() ) {
+        for (int i = 0; i < lp; ++i) {
+            anotherDec.numA.push_back(0);
+        }
+    }
+    else if (  numA.size() < anotherDec.numA.size()) {
+        for (int i = 0; i < lp; ++i) {
+            numA.push_back(0);
+        }
+    }
+
+    if (nSign == '+' && anotherDec.nSign == '-'){
+        for (int i = 0; i < mx; ++i) {
+            if (numA[i] + anotherDec.numA[i] > 10) {
+                temp[i] = (numA[i] + anotherDec.numA[i]) % 10;
+                numA[i + 1] += 1;
+            } else {
+                temp[i] = numA[i] + anotherDec.numA[i];
+            }
+        }
+        reverse(temp.begin(), temp.end());
+        copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+        finalNum = result.str();
+    }
+    else if ( nSign =='-' && anotherDec.nSign =='+'){
+        for (int i = 0; i < mx; ++i) {
+            if (numA[i] + anotherDec.numA[i] > 10) {
+                temp[i] = (numA[i] + anotherDec.numA[i]) % 10;
+                numA[i + 1] += 1;
+            } else {
+                temp[i] = numA[i] + anotherDec.numA[i];
+            }
+        }
+        reverse(temp.begin(), temp.end());
+        copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+        finalNum = result.str();
+        finalNum = '-' + finalNum;
+    }
+    else if (nSign == '+' && anotherDec.nSign =='+'){
+        if ( sz1 >= sz2  ) {
+            for (int i = 0; i < mx; ++i) {
+                if ( numA[i] - anotherDec.numA[i] < 0 ) {
+                    numA[i+1] -= 1;
+                    temp[i] = numA[i] + 10 - anotherDec.numA[i];
+                }
+                else {
+                    temp[i] = numA[i]  - anotherDec.numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+        }
+        else if ( sz1 < sz2) {
+            for (int i = 0; i < mx; ++i) {
+                if ( - numA[i] + anotherDec.numA[i] < 0 ) {
+                    anotherDec.numA[i+1] -= 1;
+                    temp[i] = anotherDec.numA[i] + 10 - numA[i];
+                }
+                else {
+                    temp[i] = anotherDec.numA[i]  - numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+            finalNum = '-' + finalNum;
+        }
+    }
+    else if (nSign == '-' && anotherDec.nSign == '-'){
+        if ( sz2 >= sz1  ) {
+            for (int i = 0; i < mx; ++i) {
+                if ( anotherDec.numA[i] - numA[i] < 0 ) {
+                    anotherDec.numA[i+1] -= 1;
+                    temp[i] = anotherDec.numA[i] + 10 - numA[i];
+                }
+                else {
+                    temp[i] = anotherDec.numA[i]  - numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+        }
+        else if ( sz2 < sz1) {
+            for (int i = 0; i < mx; ++i) {
+                if ( - anotherDec.numA[i] + numA[i] < 0 ) {
+                    numA[i+1] -= 1;
+                    temp[i] = numA[i] + 10 - anotherDec.numA[i];
+                }
+                else {
+                    temp[i] = numA[i]  - anotherDec.numA[i];
+                }
+            }
+            reverse(temp.begin(), temp.end());
+            copy(temp.begin(), temp.end(), ostream_iterator<int>(result, ""));
+            finalNum = result.str();
+            finalNum = '-' + finalNum;
+        }
+    }
+
+
+
+    BigDecimalInt answer(finalNum);
+    return answer;
+}
+bool BigDecimalInt::operator==(BigDecimalInt anotherDec) {
+    stringstream num1 , num2;
+    copy(numA.begin(), numA.end(), ostream_iterator<int>(num1, ""));
+    copy(anotherDec.numA.begin(), anotherDec.numA.end(), ostream_iterator<int>(num2, ""));
+    if ( num2.str() == num1.str() &&  nSign == anotherDec.nSign ) {
+        return true;
+    }
+    else return false ;
+}
