@@ -1,6 +1,11 @@
 #include "BigDecimalInt.h"
 
+#include <utility>
 
+
+BigDecimalInt::BigDecimalInt() {
+    numStr = "";
+};
 //Operators
 BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
     int mn = min(numA.size(), anotherDec.numA.size());
@@ -242,3 +247,32 @@ bool BigDecimalInt::operator==(BigDecimalInt anotherDec) {
     }
     else return false ;
 }
+
+ostream &operator<<(ostream &out, BigDecimalInt &b) {
+    out<<b.numStr;
+    return out;
+}
+
+string BigDecimalInt::sign() {
+    if(numStr[0] == '-')
+        return "Negative";
+    else
+        return "Positive";
+}
+
+int BigDecimalInt::size() {
+    return numStr.size();
+}
+
+BigDecimalInt &BigDecimalInt::operator=(const BigDecimalInt &anotherDec) {
+    if(this == &anotherDec)
+        return *this;
+    numStr = anotherDec.numStr;
+    return *this;
+
+}
+
+BigDecimalInt::BigDecimalInt(string decStr) {
+    numStr = std::move(decStr);
+}
+

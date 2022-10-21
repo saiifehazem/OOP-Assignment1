@@ -5,6 +5,10 @@
 using namespace std;
 
 int main() {
-    BigDecimalInt x("1230") , x2 ("abcd12");
-    cout <<x;
+    BigDecimalInt z("21354513");
+    cout<<z.size();
+    cout<<z.sign();
+    cout<<z;
+    BigDecimalInt y = z;
+    cout<<y;
 }

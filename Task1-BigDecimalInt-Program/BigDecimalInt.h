@@ -14,19 +14,18 @@ char nSign = '+';
 
 public:
     BigDecimalInt();
-    BigDecimalInt(string decStr);
-    BigDecimalInt(int decInt);
-    ~BigDecimalInt();
+    explicit BigDecimalInt(string decStr);
+    //BigDecimalInt(int decInt);
 
     BigDecimalInt operator + (BigDecimalInt anotherDec);
     BigDecimalInt operator - (BigDecimalInt anotherDec);
-    bool operator < ( BigDecimalInt anotherDec);
-    bool operator > ( BigDecimalInt anotherDec);
+    //bool operator < ( BigDecimalInt anotherDec);
+    //bool operator > ( BigDecimalInt anotherDec);
     bool operator == (BigDecimalInt anotherDec);
+    BigDecimalInt& operator =(const BigDecimalInt& anotherDec);
     int size();
-    int sign();
-    friend ostream& operator << (ostream& out, BigDecimalInt b);
-    void print();
+    string sign();
+    friend ostream &operator<<(ostream &out, BigDecimalInt &b);
 
 };
 
