@@ -8,9 +8,12 @@ using namespace std;
 class BigDecimalInt {
 
 private:
-string numStr;
+    BigDecimalInt(int decInt);
+
+    string numStr;
 vector <int> numA ={0} ;
 char nSign = '+';
+int numInt;
 
 public:
     BigDecimalInt();
@@ -19,14 +22,17 @@ public:
 
     BigDecimalInt operator + (BigDecimalInt anotherDec);
     BigDecimalInt operator - (BigDecimalInt anotherDec);
-    //bool operator < ( BigDecimalInt anotherDec);
-    //bool operator > ( BigDecimalInt anotherDec);
+    bool operator < ( BigDecimalInt anotherDec);
+    bool operator > ( BigDecimalInt anotherDec);
     bool operator == (BigDecimalInt anotherDec);
     BigDecimalInt& operator =(const BigDecimalInt& anotherDec);
+
     int size();
-    string sign();
+    int sign();
+
     friend ostream &operator<<(ostream &out, BigDecimalInt &b);
 
+    void print();
 };
 
 

@@ -29,20 +29,21 @@ BigDecimalInt::BigDecimalInt(string decStr):numStr(decStr) {
     }
 
     //Removing any leading zeros
-    for (int i = 0; i < numA.size(); ++i) {
+    for (int i = 0; i < numA.size(); i++) {
         if ( numA[0] == 0 ) numA.erase(numA.begin());
         else break;
     }
 
-    if ( !isNum ) cout<<"Please enter a valid number !\n";
+    if ( !isNum ) cout<<"Please enter a valid number!\n";
 }
 BigDecimalInt::BigDecimalInt(int decInt) {
+    numInt = decInt;
 }
 
 //Destructor
-BigDecimalInt::~BigDecimalInt() {
-    //
-}
+//BigDecimalInt::~BigDecimalInt() {
+//    //
+//}
 
 //Function returns size of the number
 int BigDecimalInt::size() {
@@ -59,8 +60,8 @@ int BigDecimalInt::sign() {
 //Function to print the number
 void BigDecimalInt::print() {
     cout << nSign;
-    for (int i = 0; i < numA.size(); ++i) {
-        cout << numA[i];
+    for (int i : numA) {
+        cout << i;
     }
     cout << endl;
 
@@ -74,7 +75,7 @@ BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
     int sz1 = numA.size(), sz2 = anotherDec.numA.size();
     vector<int> temp(mx) ;
     stringstream result;
-    string finalNum = "";
+    string finalNum;
     reverse(numA.begin(), numA.end());
     reverse(anotherDec.numA.begin(), anotherDec.numA.end());
     if( numA.size() > anotherDec.numA.size() ) {
@@ -189,7 +190,7 @@ BigDecimalInt BigDecimalInt::operator-(BigDecimalInt anotherDec){
     int sz1 = numA.size(), sz2 = anotherDec.numA.size();
     vector<int> temp(mx) ;
     stringstream result;
-    string finalNum = "";
+    string finalNum;
     reverse(numA.begin(), numA.end());
     reverse(anotherDec.numA.begin(), anotherDec.numA.end());
     if( numA.size() > anotherDec.numA.size() ) {
@@ -363,12 +364,21 @@ bool BigDecimalInt::operator < (BigDecimalInt anotherDec) {
     }
     return false;
 }
-ostream &operator<<(ostream &out, BigDecimalInt b) {
-    cout << b.nSign;
+
+BigDecimalInt &BigDecimalInt::operator=(const BigDecimalInt &anotherDec) {
+    if(this == &anotherDec)
+        return *this;
+    numStr = anotherDec.numStr;
+    return *this;
+
+}
+
+ostream &operator<<(ostream &out, BigDecimalInt &b) {
+    out << b.nSign;
     for (int i : b.numA) {
-        cout << i;
+        out << i;
     }
-    return cout;
+    return out;
 }
 
 
