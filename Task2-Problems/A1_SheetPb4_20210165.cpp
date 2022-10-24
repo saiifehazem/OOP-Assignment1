@@ -2,27 +2,26 @@
 using namespace std;
 
 static void binaryPrint(int n){
-    if(n == 0){
-        return;
+    if(n < 2){
+        cout << n;
+    }else{
+        binaryPrint(n/2);
+        cout << n%2;
     }
-    binaryPrint(n/2);
-    cout << n%2;
 }
 
-
-static void numbers(string prefix, int k){
-    //The number k is non-negative.
-    //The argument called prefix is a strong of 0's and 1's
-    // find out All possible combinations of the prefix and k-digit suffix
+static void num (string prefix , int k){
+    // string prefix is a string of 0 and 1
+    // int k is all the combinations of 0 and 1 which put after prefix
     if (k == 0){
         cout << prefix << endl;
-    } else {
-        numbers(prefix + "0", k - 1);
-        numbers(prefix + "1", k - 1);
+    }else{
+        num(prefix + "0", k-1);
+        num(prefix + "1", k-1);
     }
 }
 
-int main {
-	binaryPrint (4);
-	numbers ( "00101",2)
+int main() {
+    binaryPrint (4); cout << endl;
+    num ( "00101",2);
 }
