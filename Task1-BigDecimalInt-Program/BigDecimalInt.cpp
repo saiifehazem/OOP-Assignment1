@@ -364,6 +364,15 @@ bool BigDecimalInt::operator < (BigDecimalInt anotherDec) {
     }
     return false;
 }
+
+BigDecimalInt &BigDecimalInt::operator=(const BigDecimalInt &anotherDec) {
+    if(this == &anotherDec)
+        return *this;
+    numStr = anotherDec.numStr;
+    return *this;
+
+}
+
 ostream &operator<<(ostream &out, BigDecimalInt &b) {
     out << b.nSign;
     for (int i : b.numA) {
