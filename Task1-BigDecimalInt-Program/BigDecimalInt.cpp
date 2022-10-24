@@ -37,12 +37,13 @@ BigDecimalInt::BigDecimalInt(string decStr):numStr(decStr) {
     if ( !isNum ) cout<<"Please enter a valid number !\n";
 }
 BigDecimalInt::BigDecimalInt(int decInt) {
+    numInt = decInt;
 }
 
 //Destructor
-BigDecimalInt::~BigDecimalInt() {
-    //
-}
+//BigDecimalInt::~BigDecimalInt() {
+//    //
+//}
 
 //Function returns size of the number
 int BigDecimalInt::size() {
@@ -363,7 +364,7 @@ bool BigDecimalInt::operator < (BigDecimalInt anotherDec) {
     }
     return false;
 }
-ostream &operator<<(ostream &out, BigDecimalInt b) {
+ostream &operator<<(ostream &out, BigDecimalInt &b) {
     cout << b.nSign;
     for (int i : b.numA) {
         cout << i;
