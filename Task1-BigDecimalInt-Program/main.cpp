@@ -11,4 +11,5 @@ int main() {
     cout<<z;
     BigDecimalInt y = z;
     cout<<y;
+    y.print();
 }
