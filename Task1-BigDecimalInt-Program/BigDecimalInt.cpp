@@ -1,11 +1,71 @@
 #include "BigDecimalInt.h"
 
-#include <utility>
-
-
+//Constructors
 BigDecimalInt::BigDecimalInt() {
-    numStr = "";
-};
+}
+BigDecimalInt::BigDecimalInt(string decStr):numStr(decStr) {
+    bool isNum = true;
+
+    if ( numStr[0] == '+' or numStr [0] == '-' ) {
+        for (int i = 1; i < numStr.length(); ++i) {
+            isNum = isdigit ( numStr[i] );
+            if (isNum == false)  break;
+            numA.push_back(numStr[i] - '0');
+        }
+        if (numStr[0] == '+' ) nSign = '+';
+        else nSign = '-';
+    }
+    else if ( isdigit ( numStr[0] ) == 1 ) {
+
+        for (int i = 0; i < numStr.length(); ++i){
+            if (isdigit(numStr[i])) numA.push_back( numStr[i] - '0' );
+            else {
+                isNum = false;
+                //numA.erase(numA.begin(),numA.end());
+                numA={0};
+                break;
+            }
+        }
+    }
+
+    //Removing any leading zeros
+    for (int i = 0; i < numA.size(); ++i) {
+        if ( numA[0] == 0 ) numA.erase(numA.begin());
+        else break;
+    }
+
+    if ( !isNum ) cout<<"Please enter a valid number !\n";
+}
+BigDecimalInt::BigDecimalInt(int decInt) {
+}
+
+//Destructor
+BigDecimalInt::~BigDecimalInt() {
+    //
+}
+
+//Function returns size of the number
+int BigDecimalInt::size() {
+    return numA.size();
+}
+
+//Function returns sign of the number
+int BigDecimalInt::sign() {
+    if (nSign == '+') return 1;
+    else return -1;
+
+}
+
+//Function to print the number
+void BigDecimalInt::print() {
+    cout << nSign;
+    for (int i = 0; i < numA.size(); ++i) {
+        cout << numA[i];
+    }
+    cout << endl;
+
+}
+
 //Operators
 BigDecimalInt BigDecimalInt::operator+(BigDecimalInt anotherDec) {
     int mn = min(numA.size(), anotherDec.numA.size());
@@ -247,32 +307,72 @@ bool BigDecimalInt::operator==(BigDecimalInt anotherDec) {
     }
     else return false ;
 }
-
-ostream &operator<<(ostream &out, BigDecimalInt &b) {
-    out<<b.numStr;
-    return out;
+bool BigDecimalInt::operator > (BigDecimalInt anotherDec) {
+    stringstream num1, num2;
+    copy(numA.begin(), numA.end(), ostream_iterator<int>(num1, ""));
+    copy(anotherDec.numA.begin(), anotherDec.numA.end(), ostream_iterator<int>(num2, ""));
+    if ( nSign == '+' && anotherDec.nSign == '-' ) return true;
+    else if ( nSign == '-' && anotherDec.nSign == '+' ) return false;
+    else if ( nSign == '+' && anotherDec.nSign == '+' ) {
+        if ( numA.size() > anotherDec.numA.size() ) return true;
+        else if ( numA.size() < anotherDec.numA.size() ) return false;
+        else {
+            for (int i = 0; i < numA.size(); ++i) {
+                if ( numA[i] > anotherDec.numA[i] ) return true;
+                else if ( numA[i] < anotherDec.numA[i] ) return false;
+            }
+        }
+    }
+    else if ( nSign == '-' && anotherDec.nSign == '-' ) {
+        if ( numA.size() > anotherDec.numA.size() ) return false;
+        else if ( numA.size() < anotherDec.numA.size() ) return true;
+        else {
+            for (int i = 0; i < numA.size(); ++i) {
+                if ( numA[i] > anotherDec.numA[i] ) return false;
+                else if ( numA[i] < anotherDec.numA[i] ) return true;
+            }
+        }
+    }
+    return false;
+}
+bool BigDecimalInt::operator < (BigDecimalInt anotherDec) {
+    stringstream num1, num2;
+    copy(numA.begin(), numA.end(), ostream_iterator<int>(num1, ""));
+    copy(anotherDec.numA.begin(), anotherDec.numA.end(), ostream_iterator<int>(num2, ""));
+    if ( nSign == '+' && anotherDec.nSign == '-' ) return false;
+    else if ( nSign == '-' && anotherDec.nSign == '+' ) return true;
+    else if ( nSign == '+' && anotherDec.nSign == '+' ) {
+        if ( numA.size() > anotherDec.numA.size() ) return false;
+        else if ( numA.size() < anotherDec.numA.size() ) return true;
+        else {
+            for (int i = 0; i < numA.size(); ++i) {
+                if ( numA[i] > anotherDec.numA[i] ) return false;
+                else if ( numA[i] < anotherDec.numA[i] ) return true;
+            }
+        }
+    }
+    else if ( nSign == '-' && anotherDec.nSign == '-' ) {
+        if ( numA.size() > anotherDec.numA.size() ) return true;
+        else if ( numA.size() < anotherDec.numA.size() ) return false;
+        else {
+            for (int i = 0; i < numA.size(); ++i) {
+                if ( numA[i] > anotherDec.numA[i] ) return true;
+                else if ( numA[i] < anotherDec.numA[i] ) return false;
+            }
+        }
+    }
+    return false;
+}
+ostream &operator<<(ostream &out, BigDecimalInt b) {
+    cout << b.nSign;
+    for (int i : b.numA) {
+        cout << i;
+    }
+    return cout;
 }
 
-string BigDecimalInt::sign() {
-    if(numStr[0] == '-')
-        return "Negative";
-    else
-        return "Positive";
-}
 
-int BigDecimalInt::size() {
-    return numStr.size();
-}
 
-BigDecimalInt &BigDecimalInt::operator=(const BigDecimalInt &anotherDec) {
-    if(this == &anotherDec)
-        return *this;
-    numStr = anotherDec.numStr;
-    return *this;
 
-}
 
-BigDecimalInt::BigDecimalInt(string decStr) {
-    numStr = std::move(decStr);
-}
 
