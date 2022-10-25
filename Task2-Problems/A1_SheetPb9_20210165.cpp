@@ -3,14 +3,13 @@
 
 using namespace std;
 
-vector <string> f1;
-vector <string> f2;
+vector <string> f1, f2;
 
 void loadf1(vector<string>&txt,ifstream &file)
 {
     char line[100];
     string fName;
-    cout<<"Please enter file name without (.txt): ";
+    cout<<"Please enter text file name without extension: ";
     cin>>fName;
     fName+=".txt";
     file.open(fName);
@@ -35,7 +34,7 @@ void loadf2(vector<string>&txt, ifstream &file)
 {
     char line[100];
     string fName;
-    cout<<"Please enter file name without (.txt): ";
+    cout<<"Please enter text file name without extension: ";
     cin>>fName;
     fName+=".txt";
     file.open(fName);
